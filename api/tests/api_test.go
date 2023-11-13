@@ -7,10 +7,30 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/umangraval/Go-Mongodb-REST-boilerplate/routes"
+	"github.com/alocin98/ski-planner-api/routes"
 )
 
 var rou = routes.Routes()
+
+func TestHealthCheckEndpoint(t *testing.T) {
+
+	req, err := http.NewRequest("GET", "/healthcheck", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	rr := httptest.NewRecorder()
+	rou.ServeHTTP(rr, req)
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+
+	// Check the response body is what we expect.
+	if !strings.Contains(rr.Body.String(), "OK") {
+		t.Errorf("handler returned unexpected body: got %v",
+			rr.Body.String())
+	}
+}
 
 func TestGetPeopleEndpoint(t *testing.T) {
 	req, err := http.NewRequest("GET", "/people", nil)

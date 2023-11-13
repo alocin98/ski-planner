@@ -5,18 +5,18 @@ import (
 	"net/http"
 	"time"
 
-	jwt "github.com/dgrijalva/jwt-go"
+	"github.com/dgrijalva/jwt-go"
+	"github.com/julienschmidt/httprouter"
 )
 
 var mySigningKey = []byte(DotEnvVariable("JWT_SECRET"))
 
 // IsAuthorized -> verify jwt header
-func IsAuthorized(next http.Handler) http.HandlerFunc {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
-		if r.Header["Token"] != nil {
-
-			token, err := jwt.Parse(r.Header["Token"][0], func(token *jwt.Token) (interface{}, error) {
+func IsAuthorized(next httprouter.Handle) httprouter.Handle {
+	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		tokenHeader := r.Header.Get("Token")
+		if tokenHeader != "" {
+			token, err := jwt.Parse(tokenHeader, func(token *jwt.Token) (interface{}, error) {
 				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 					return nil, fmt.Errorf("There was an error")
 				}
@@ -28,16 +28,32 @@ func IsAuthorized(next http.Handler) http.HandlerFunc {
 			}
 
 			if token.Valid {
-				next.ServeHTTP(w, r)
+				next(w, r, ps)
 			}
 		} else {
 			AuthorizationResponse("Not Authorized", w)
 		}
-	})
+	}
 }
 
+/*
+func isAuthorzedFirebase(next httprouter.Handle) httprouter.Handle {
+	client, err := app.Auth(ctx)
+	if err != nil {
+		log.Fatalf("error getting Auth client: %v\n", err)
+	}
+
+	token, err := client.VerifyIDToken(ctx, idToken)
+	if err != nil {
+		log.Fatalf("error verifying ID token: %v\n", err)
+	}
+
+	log.Printf("Verified ID token: %v\n", token)
+}
+*/
 // GenerateJWT -> generate jwt
 func GenerateJWT() (string, error) {
+
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)

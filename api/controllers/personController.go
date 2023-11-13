@@ -9,11 +9,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gorilla/mux"
-	"github.com/umangraval/Go-Mongodb-REST-boilerplate/db"
-	middlewares "github.com/umangraval/Go-Mongodb-REST-boilerplate/handlers"
-	"github.com/umangraval/Go-Mongodb-REST-boilerplate/models"
-	"github.com/umangraval/Go-Mongodb-REST-boilerplate/validators"
+	"github.com/alocin98/ski-planner-api/db"
+	middlewares "github.com/alocin98/ski-planner-api/handlers"
+	"github.com/alocin98/ski-planner-api/models"
+	"github.com/alocin98/ski-planner-api/validators"
+	"github.com/julienschmidt/httprouter"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -21,17 +21,17 @@ import (
 var client = db.Dbconnect()
 
 // Auths -> get token
-var Auths = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
+func Auths(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
 	validToken, err := middlewares.GenerateJWT()
 	if err != nil {
 		middlewares.ErrorResponse("Failed to generate token", response)
 	}
 
 	middlewares.SuccessResponse(string(validToken), response)
-})
+}
 
 // CreatePersonEndpoint -> create person
-var CreatePersonEndpoint = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
+func CreatePersonEndpoint(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
 	var person models.Person
 	err := json.NewDecoder(request.Body).Decode(&person)
 	if err != nil {
@@ -50,10 +50,10 @@ var CreatePersonEndpoint = http.HandlerFunc(func(response http.ResponseWriter, r
 	}
 	res, _ := json.Marshal(result.InsertedID)
 	middlewares.SuccessResponse(`Inserted at `+strings.Replace(string(res), `"`, ``, 2), response)
-})
+}
 
 // GetPeopleEndpoint -> get people
-var GetPeopleEndpoint = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
+func GetPeopleEndpoint(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
 	var people []*models.Person
 
 	collection := client.Database("golang").Collection("people")
@@ -76,12 +76,11 @@ var GetPeopleEndpoint = http.HandlerFunc(func(response http.ResponseWriter, requ
 		return
 	}
 	middlewares.SuccessArrRespond(people, response)
-})
+}
 
 // GetPersonEndpoint -> get person by id
-var GetPersonEndpoint = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
-	params := mux.Vars(request)
-	id, _ := primitive.ObjectIDFromHex(params["id"])
+func GetPersonEndpoint(response http.ResponseWriter, request *http.Request, params httprouter.Params) {
+	id, _ := primitive.ObjectIDFromHex(params.ByName("id"))
 	var person models.Person
 
 	collection := client.Database("golang").Collection("people")
@@ -91,12 +90,11 @@ var GetPersonEndpoint = http.HandlerFunc(func(response http.ResponseWriter, requ
 		return
 	}
 	middlewares.SuccessRespond(person, response)
-})
+}
 
 // DeletePersonEndpoint -> delete person by id
-var DeletePersonEndpoint = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
-	params := mux.Vars(request)
-	id, _ := primitive.ObjectIDFromHex(params["id"])
+func DeletePersonEndpoint(response http.ResponseWriter, request *http.Request, params httprouter.Params) {
+	id, _ := primitive.ObjectIDFromHex(params.ByName("id"))
 	var person models.Person
 
 	collection := client.Database("golang").Collection("people")
@@ -111,12 +109,11 @@ var DeletePersonEndpoint = http.HandlerFunc(func(response http.ResponseWriter, r
 		return
 	}
 	middlewares.SuccessResponse("Deleted", response)
-})
+}
 
 // UpdatePersonEndpoint -> update person by id
-var UpdatePersonEndpoint = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
-	params := mux.Vars(request)
-	id, _ := primitive.ObjectIDFromHex(params["id"])
+func UpdatePersonEndpoint(response http.ResponseWriter, request *http.Request, params httprouter.Params) {
+	id, _ := primitive.ObjectIDFromHex(params.ByName("id"))
 	type fname struct {
 		Firstname string `json:"firstname"`
 	}
@@ -133,10 +130,10 @@ var UpdatePersonEndpoint = http.HandlerFunc(func(response http.ResponseWriter, r
 		return
 	}
 	middlewares.SuccessResponse("Updated", response)
-})
+}
 
 // UploadFileEndpoint -> upload file
-var UploadFileEndpoint = http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
+func UploadFileEndpoint(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
 	file, handler, err := request.FormFile("file")
 	// fileName := request.FormValue("file_name")
 	if err != nil {
@@ -152,4 +149,4 @@ var UploadFileEndpoint = http.HandlerFunc(func(response http.ResponseWriter, req
 	_, _ = io.Copy(f, file)
 
 	middlewares.SuccessResponse("Uploaded Successfully", response)
-})
+}

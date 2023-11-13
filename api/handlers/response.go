@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/umangraval/Go-Mongodb-REST-boilerplate/models"
+	"github.com/alocin98/ski-planner-api/models"
 )
 
 // AuthorizationResponse -> response authorize

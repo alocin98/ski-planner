@@ -3,21 +3,24 @@ package routes
 import (
 	"net/http"
 
-	"github.com/gorilla/mux"
-	"github.com/umangraval/Go-Mongodb-REST-boilerplate/controllers"
-	middlewares "github.com/umangraval/Go-Mongodb-REST-boilerplate/handlers"
+	"github.com/alocin98/ski-planner-api/controllers"
+	middlewares "github.com/alocin98/ski-planner-api/handlers"
+	"github.com/julienschmidt/httprouter"
 )
 
-// Routes -> define endpoints
-func Routes() *mux.Router {
-	router := mux.NewRouter()
-	router.HandleFunc("/person", controllers.CreatePersonEndpoint).Methods("POST")
-	router.HandleFunc("/auth", controllers.Auths).Methods("GET")
-	router.HandleFunc("/people", middlewares.IsAuthorized(controllers.GetPeopleEndpoint)).Methods("GET")
-	router.HandleFunc("/person/{id}", controllers.GetPersonEndpoint).Methods("GET")
-	router.HandleFunc("/person/{id}", controllers.DeletePersonEndpoint).Methods("DELETE")
-	router.HandleFunc("/person/{id}", controllers.UpdatePersonEndpoint).Methods("PUT")
-	router.HandleFunc("/upload", controllers.UploadFileEndpoint).Methods("POST")
-	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./uploaded/"))))
+// Routes defines endpoints
+func Routes() *httprouter.Router {
+	router := httprouter.New()
+
+	router.GET("/healthcheck", controllers.HealthCheck)
+	router.POST("/person", controllers.CreatePersonEndpoint)
+	router.GET("/auth", controllers.Auths)
+	router.GET("/people", middlewares.IsAuthorized(controllers.GetPeopleEndpoint))
+	router.GET("/person/:id", controllers.GetPersonEndpoint)
+	router.DELETE("/person/:id", controllers.DeletePersonEndpoint)
+	router.PUT("/person/:id", controllers.UpdatePersonEndpoint)
+	router.POST("/upload", controllers.UploadFileEndpoint)
+	router.ServeFiles("/static/*filepath", http.Dir("./uploaded/"))
+
 	return router
 }
