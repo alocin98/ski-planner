@@ -4,11 +4,14 @@ FROM golang:1.17
 # Set the working directory to the GOPATH
 WORKDIR $GOPATH/src
 
-# Copy the entire project to the working directory
-COPY . .
+# Copy only the go.mod and go.sum files to cache dependencies
+COPY go.mod go.sum ./
 
 # Install any dependencies required by the project
-RUN go get -d -v ./...
+RUN go mod download
+
+# Copy the entire project to the working directory
+COPY . .
 
 # Build the application
 RUN go build -o /app/main ./
