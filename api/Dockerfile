@@ -1,12 +1,20 @@
-FROM golang:latest
+# Use the official Golang image as the base image
+FROM golang:1.17
 
-ENV GO111MODULE=on
-ENV PORT=8080
-WORKDIR /app
-COPY go.mod /app
-COPY go.sum /app
+# Set the working directory to the GOPATH
+WORKDIR $GOPATH/src
 
-RUN go mod download
-RUN go get github.com/githubnemo/CompileDaemon
-COPY . /app
-ENTRYPOINT CompileDaemon --build="go build -o main" --command=./main
+# Copy the entire project to the working directory
+COPY . .
+
+# Install any dependencies required by the project
+RUN go get -d -v ./...
+
+# Build the application
+RUN go build -o /app/main ./
+
+# Expose the port on which the application will run
+EXPOSE 8080
+
+# Set the entry point for the container
+CMD ["/app/main"]
