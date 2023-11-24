@@ -1,6 +1,33 @@
 {
 	"compilerOptions": {
 		"paths": {
+			"@assets/*": [
+				"../src/assets/*"
+			],
+			"@features/*": [
+				"../src/features/*"
+			],
+			"@packages/*": [
+				"../src/packages/*"
+			],
+			"@providers/*": [
+				"../src/providers/*"
+			],
+			"@components/*": [
+				"../src/lib/components/*"
+			],
+			"@utils/*": [
+				"../src/utils/*"
+			],
+			"@types": [
+				"../src/types"
+			],
+			"@types/*": [
+				"../src/types/*"
+			],
+			"@root/*": [
+				"../*"
+			],
 			"$lib": [
 				"../src/lib"
 			],

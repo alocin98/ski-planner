@@ -1,5 +1,15 @@
 {
-	"/": [],
-	"/about": [],
-	"/contact": []
+	"/": [
+		"src/routes/+layout.server.ts",
+		"src/routes/+layout.server.ts"
+	],
+	"/about": [
+		"src/routes/+layout.server.ts"
+	],
+	"/contact": [
+		"src/routes/+layout.server.ts"
+	],
+	"/login": [
+		"src/routes/+layout.server.ts"
+	]
 }

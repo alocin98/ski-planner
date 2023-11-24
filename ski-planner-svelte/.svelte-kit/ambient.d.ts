@@ -26,6 +26,9 @@
  * ```
  */
 declare module '$env/static/private' {
+	export const AWS_ACCESS_KEY_ID: string;
+	export const AWS_SECRET_ACCESS_KEY: string;
+	export const STRIPE_SECRET_KEY: string;
 	export const NVM_INC: string;
 	export const MANPATH: string;
 	export const TERM_PROGRAM: string;
@@ -102,7 +105,15 @@ declare module '$env/static/private' {
  * ```
  */
 declare module '$env/static/public' {
-	
+	export const PUBLIC_FIREBASE_API_KEY: string;
+	export const PUBLIC_FIREBASE_AUTHDOMAIN: string;
+	export const PUBLIC_FIREBASE_PROJECTID: string;
+	export const PUBLIC_FIREBASE_STORAGEBUCKET: string;
+	export const PUBLIC_FIREBASE_MESSAGINGSENDERID: string;
+	export const PUBLIC_FIREBASE_APPID: string;
+	export const PUBLIC_FIREBASE_MEASUREMENTID: string;
+	export const PUBLIC_API_KEY: string;
+	export const PUBLIC_AWS_S3_BUCKET_URL: string;
 }
 
 /**
@@ -119,6 +130,9 @@ declare module '$env/static/public' {
  */
 declare module '$env/dynamic/private' {
 	export const env: {
+		AWS_ACCESS_KEY_ID: string;
+		AWS_SECRET_ACCESS_KEY: string;
+		STRIPE_SECRET_KEY: string;
 		NVM_INC: string;
 		MANPATH: string;
 		TERM_PROGRAM: string;
@@ -200,6 +214,15 @@ declare module '$env/dynamic/private' {
  */
 declare module '$env/dynamic/public' {
 	export const env: {
+		PUBLIC_FIREBASE_API_KEY: string;
+		PUBLIC_FIREBASE_AUTHDOMAIN: string;
+		PUBLIC_FIREBASE_PROJECTID: string;
+		PUBLIC_FIREBASE_STORAGEBUCKET: string;
+		PUBLIC_FIREBASE_MESSAGINGSENDERID: string;
+		PUBLIC_FIREBASE_APPID: string;
+		PUBLIC_FIREBASE_MEASUREMENTID: string;
+		PUBLIC_API_KEY: string;
+		PUBLIC_AWS_S3_BUCKET_URL: string;
 		[key: `PUBLIC_${string}`]: string | undefined;
 	}
 }

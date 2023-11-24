@@ -1,0 +1,28 @@
+{
+	"login": "login",
+	"register": "register",
+	"logout": "logout",
+	"firebaseErrors": {
+		"auth/invalid-email": "Email konnte nicht erkannt werden"
+	},
+	"date": "Datum",
+	"price": "Preis",
+	"taste": "Geschmack",
+	"comment": "Kommentar",
+	"city": "Stadt",
+	"title": "SunLoungery",
+	"subTitle": "Stop fighting for a spot by the pool. Just book it.",
+	"mail": "mail",
+	"name": "name",
+	"optional": "optional",
+	"uniqueName": "unique name",
+	"streetAddress": "street address",
+	"postalCode": "postal code",
+	"country": "country",
+	"poolMap": "pool map",
+	"ok": "ok",
+	"password": "password",
+	"login-form": {
+		"noAccountYet": "No account yet?"
+	}
+}
