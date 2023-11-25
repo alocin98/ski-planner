@@ -112,7 +112,6 @@ declare module '$env/static/public' {
 	export const PUBLIC_FIREBASE_MESSAGINGSENDERID: string;
 	export const PUBLIC_FIREBASE_APPID: string;
 	export const PUBLIC_FIREBASE_MEASUREMENTID: string;
-	export const PUBLIC_API_KEY: string;
 	export const PUBLIC_AWS_S3_BUCKET_URL: string;
 }
 
@@ -221,7 +220,6 @@ declare module '$env/dynamic/public' {
 		PUBLIC_FIREBASE_MESSAGINGSENDERID: string;
 		PUBLIC_FIREBASE_APPID: string;
 		PUBLIC_FIREBASE_MEASUREMENTID: string;
-		PUBLIC_API_KEY: string;
 		PUBLIC_AWS_S3_BUCKET_URL: string;
 		[key: `PUBLIC_${string}`]: string | undefined;
 	}

@@ -3,25 +3,26 @@
 	import { t } from '@providers/language';
 	import { UserService } from '../service/user-service';
 
-	export let afterLogin: (user: any) => void | Promise<void>;
-	export let registerUrl = '/register';
+	export let afterRegister: (user: any) => void | Promise<void>;
+	export let loginUrl = '/login';
 
 	const data = { email: '', password: '' };
 	let error: string | null = null;
-	let loadingLogin = false;
+	let loadingRegister = false;
 
-	function login() {
-		loadingLogin = true;
-		UserService.loginWithEmailAndPassword(data.email, data.password)
+	function register() {
+		loadingRegister = true;
+		UserService.newUserWithEmailAndPassword(data.email, data.password)
+			.catch((e: any) => {
+				console.log('STH WENT WRONG');
+				error = e.code;
+			})
 			.then((user) => {
-				afterLogin(user);
+				if (user) afterRegister(user);
 			})
-			.catch((e: Error) => {
-				error = e.message;
-				console.error(e.message, e.cause);
-			})
+
 			.finally(() => {
-				loadingLogin = false;
+				loadingRegister = false;
 			});
 	}
 </script>
@@ -57,16 +58,16 @@
 			<p class="text-error">{error}</p>
 		{/if}
 		<div class="form-control mt-2 gap-2">
-			<button on:submit={login} on:click={login} class="btn btn-primary">
-				{#if loadingLogin}
+			<button on:click={register} class="btn btn-secondary">
+				{#if loadingRegister}
 					<Loader className="fill-current" size={30} />
 				{:else}
-					{t('login.loginButton')}
-				{/if}
-			</button>
-			<p>{t('login.noAccountYet')}</p>
-			<a class="link" href={registerUrl}>
-				{t('register')}
+					{t('register')}
+				{/if}</button
+			>
+			<p>{t('login.alreadyHaveAnAccount')}</p>
+			<a href={loginUrl} class="link">
+				{t('login.loginLink')}
 			</a>
 		</div>
 	</form>

@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 
 import { initializeApp, type FirebaseApp } from 'firebase/app';
-import { getAuth, browserLocalPersistence, type Auth, signInAnonymously } from 'firebase/auth';
+import { getAuth, browserLocalPersistence, signInAnonymously, type Auth } from 'firebase/auth';
 import {
 	PUBLIC_FIREBASE_API_KEY,
 	PUBLIC_FIREBASE_APPID,

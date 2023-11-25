@@ -1,9 +1,9 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../../providers/firebase/client';
 import type { User } from '@types';
 import Cookies from 'js-cookie';
+import { auth } from '@providers/firebase/client';
 
-async function loginWithEmailndPassword(email: string, password: string) {
+async function loginWithEmailAndPassword(email: string, password: string) {
 	return signInWithEmailAndPassword(auth, email, password).then(async (user) => {
 		const dbUser: Partial<User> = {
 			email: user.user.email ?? 'NO-EMAIL',
@@ -17,7 +17,7 @@ async function loginWithEmailndPassword(email: string, password: string) {
 }
 
 async function backendLogin(user: User) {
-    return fetch('/api/user/current', {
+    return fetch('http://localhost:8080/api/login', {
         method: 'POST',
         body: JSON.stringify(user)
     });
@@ -48,7 +48,7 @@ function generateUserAndSendPasswordEmail(hotelUuid: string, email: string) {
 }
 
 export const UserService = {
-	loginWithEmailndPassword,
+	loginWithEmailAndPassword,
 	newUserWithEmailAndPassword,
 	logout,
 	generateUserAndSendPasswordEmail

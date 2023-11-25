@@ -6,14 +6,24 @@ const config = {
 	],
 	plugins: [require('flowbite/plugin'), require('daisyui')],
 	darkMode: 'class',
+	theme: {
+		extend: {
+			gridTemplateColumns: {
+				applayout: '15rem auto'
+			},
+			gridTemplateRows: {
+				applayout: '2.5rem auto'
+			}
+		}
+	},
 	daisyui: {
 		themes: [
 			{
 				skiyeti: {
-					primary: '#6ED3F2',
-					secondary: '#f6d860',
+					primary: '#0C284A', // oxford blue
+					secondary: '#9BCBC4', // Tiffany Blue
 					accent: '#37cdbe',
-					neutral: '#3d4451',
+					neutral: '#566C7D',
 					'base-100': '#ffffff'
 				}
 			}

@@ -21,11 +21,18 @@ export function changeLanguageFile(lang) {
 			currentLanguageFile = en;
 	}
 }
-/**
- *
- * @param {string} key
- * @returns string
- */
-export function t(key) {
-	return currentLanguageFile[key];
+
+export function t(key: string) {
+	const keys = key.split('.'); // Split the key by '.' to handle nested keys
+	let value = currentLanguageFile;
+
+	for (const k of keys) {
+		if (value && value.hasOwnProperty(k)) {
+			value = value[k];
+		} else {
+			return undefined; // Key not found, return undefined or handle as needed
+		}
+	}
+
+	return value;
 }

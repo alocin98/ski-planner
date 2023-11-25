@@ -1,15 +1,37 @@
 {
-	"/": [
-		"src/routes/+layout.server.ts",
-		"src/routes/+layout.server.ts"
+	"/(user)": [
+		"src/routes/(user)/+layout.server.ts"
 	],
-	"/about": [
-		"src/routes/+layout.server.ts"
+	"/(public)": [
+		"src/routes/(public)/+layout.server.ts",
+		"src/routes/(public)/+layout.server.ts"
 	],
-	"/contact": [
-		"src/routes/+layout.server.ts"
+	"/": [],
+	"/(public)/about": [
+		"src/routes/(public)/+layout.server.ts"
 	],
-	"/login": [
-		"src/routes/+layout.server.ts"
+	"/(public)/contact": [
+		"src/routes/(public)/+layout.server.ts"
+	],
+	"/(user)/coolfeatures": [
+		"src/routes/(user)/+layout.server.ts"
+	],
+	"/(user)/home": [
+		"src/routes/(user)/+layout.server.ts"
+	],
+	"/(public)/login": [
+		"src/routes/(public)/+layout.server.ts"
+	],
+	"/(user)/planner": [
+		"src/routes/(user)/+layout.server.ts"
+	],
+	"/(public)/register": [
+		"src/routes/(public)/+layout.server.ts"
+	],
+	"/(user)/settings": [
+		"src/routes/(user)/+layout.server.ts"
+	],
+	"/(user)/strava": [
+		"src/routes/(user)/+layout.server.ts"
 	]
 }

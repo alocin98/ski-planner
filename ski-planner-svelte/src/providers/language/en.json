@@ -1,5 +1,4 @@
 {
-	"login": "login",
 	"register": "register",
 	"firebaseErrors": {
 		"auth/invalid-email": "Email konnte nicht erkannt werden"
@@ -11,12 +10,19 @@
 	"city": "Stadt",
 	"title": "Sun Loungery",
 	"subTitle": "Stop fighting for a spot by the pool. Just book it.",
-	"mail": "mail",
 	"name": "name",
 	"optional": "optional",
 	"uniqueName": "unique name",
 	"streetAddress": "street address",
 	"postalCode": "postal code",
 	"country": "country",
-	"poolMap": "pool map"
+	"poolMap": "pool map",
+	"login": {
+		"loginButton": "login",
+		"password": "password",
+		"email": "e-mail",
+		"noAccountYet": "Don't have an account yet? better get one!",
+		"alreadyHaveAnAccount": "Already have an account?",
+		"loginLink": "login"
+	}
 }
