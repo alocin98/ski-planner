@@ -1,6 +1,9 @@
 <script>
+	import SpaceLayout from '@components/SpaceLayout.svelte';
 	import '../../app.postcss';
 	import LoggedInHeader from '@components/LoggedInHeader.svelte';
+
+	export let data;
 </script>
 
 <div class="grid grid-rows-applayout">
@@ -8,12 +11,9 @@
 		<input id="my-drawer" type="checkbox" class="drawer-toggle" />
 		<div class="drawer-content col-start-2">
 			<LoggedInHeader />
-
-			<section class="bg-white dark:bg-gray-900">
-				<div class="max-w-screen-xl px-4 py-8 mx-auto">
-					<slot />
-				</div>
-			</section>
+			<SpaceLayout>
+				<slot />
+			</SpaceLayout>
 		</div>
 		<div class="drawer-side text-base-100">
 			<div class="p-4 min-h-full bg-primary">

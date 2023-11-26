@@ -1,7 +1,8 @@
-import type { Cookies } from '@sveltejs/kit';
+import { UserService } from '@features/auth/service/user-service';
 
-export function load({ cookies }: { cookies: Cookies }) {
+export async function load({ cookies, fetch }) {
 	const language = cookies.get('LANG') ?? 'de';
+	const user = await UserService.getUser(fetch)
 
-	return { language };
+	return { language, user };
 }

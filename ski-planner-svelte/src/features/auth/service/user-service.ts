@@ -17,8 +17,9 @@ async function loginWithEmailAndPassword(email: string, password: string) {
 }
 
 async function backendLogin(user: User) {
-    return fetch('http://localhost:8080/api/login', {
-        method: 'POST',
+    return fetch('/api/login', {
+		credentials: 'include',
+		method: 'POST',
         body: JSON.stringify(user)
     });
 }
@@ -36,6 +37,7 @@ function newUserWithEmailAndPassword(email: string, password: string) {
 }
 
 function logout() {
+	Cookies.remove('AccessToken');
 	return auth.signOut();
 }
 
@@ -47,9 +49,25 @@ function generateUserAndSendPasswordEmail(hotelUuid: string, email: string) {
 	});
 }
 
+function getUser(fetch?: typeof window.fetch) {
+	if (!fetch) {
+		fetch = window.fetch;
+	}
+	return fetch('/api/user', {
+		credentials: 'include'
+	}).then(async (response) => {
+		if (response.status === 401) {
+			return null;
+		}
+
+		return response.json();
+	}).catch(console.error)
+}
+
 export const UserService = {
 	loginWithEmailAndPassword,
 	newUserWithEmailAndPassword,
+	getUser,
 	logout,
 	generateUserAndSendPasswordEmail
 };

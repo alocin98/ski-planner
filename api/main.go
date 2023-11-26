@@ -25,6 +25,9 @@ func main() {
 	// Init firebase
 	providers.InitFirebase()
 
+	// connect mongo
+	providers.Dbconnect()
+
 	// init routes
 	router := routes.Routes()
 	c := cors.New(cors.Options{

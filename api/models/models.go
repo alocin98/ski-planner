@@ -1,6 +1,9 @@
 package models
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"github.com/alocin98/ski-planner-api/strava"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 // Person Model
 type Person struct {
@@ -10,6 +13,9 @@ type Person struct {
 }
 
 type User struct {
-	IssuerId string `json:"issuer_id,omitempty" bson:"issuer_id,omitempty" validate: "required"`
-	Email    string `json:"email,omitempty" bson:"email,omitempty" validate: "required,email"`
+	IssuerId          string              `json:"issuerId,omitempty" bson:"issuerId,omitempty" validate: "required"`
+	Email             string              `json:"email,omitempty" bson:"email,omitempty" validate: "required,email"`
+	StravaConnected   bool                `json:"stravaConnected,omitempty" bson:"stravaConnected,omitempty" validate: ""`
+	StravaAthlete     strava.Athlete      `json:"stravaAthlete,omitempty" bson:"stravaAthlete,omitempty" validate: ""`
+	SravaTokenDetails strava.TokenDetails `json:"stravaTokenDetails,omitempty" bson:"stravaTokenDetails,omitempty" validate: ""`
 }
