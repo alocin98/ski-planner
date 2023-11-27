@@ -6,7 +6,6 @@ import (
 
 	"github.com/alocin98/ski-planner-api/models"
 	"github.com/alocin98/ski-planner-api/providers"
-	"github.com/alocin98/ski-planner-api/strava"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -36,26 +35,4 @@ func GetUser(issuerId string) (models.User, error) {
 	}).Decode(&user)
 	fmt.Println(user)
 	return user, err
-}
-
-func ConnectToStrava(issuerId string, tokenResponse strava.TokenResponse) (models.User, error) {
-	var user models.User
-	tokenDetails := strava.TokenDetails{
-		TokenType:    tokenResponse.TokenType,
-		ExpiresAt:    tokenResponse.ExpiresAt,
-		ExpiresIn:    tokenResponse.ExpiresIn,
-		RefreshToken: tokenResponse.RefreshToken,
-		AccessToken:  tokenResponse.AccessToken,
-	}
-	err := providers.MongoClient.Database("skiyeti-db").Collection("users").FindOneAndUpdate(context.TODO(), bson.D{
-		{Key: "issuerId", Value: issuerId},
-	}, bson.D{
-		{Key: "$set", Value: bson.D{
-			{Key: "stravaConnected", Value: true},
-			{Key: "stravaTokenDetails", Value: tokenDetails},
-			{Key: "stravaAthlete", Value: tokenResponse.Athlete},
-		}},
-	}).Decode(&user)
-	return user, err
-
 }

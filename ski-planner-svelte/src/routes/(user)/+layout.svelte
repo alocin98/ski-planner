@@ -38,7 +38,8 @@
 					<p class="text-xl pb-8">⛷️ Skiyeti</p>
 					<ul>
 						<!-- Sidebar content here -->
-						<li><a href="/strava">Some strava stats</a></li>
+						<li><a href="/strava">Strava</a></li>
+						<li><a href="/trainings">Trainings</a></li>
 						<li><a href="/planner">Maybe a training planner</a></li>
 						<li><a href="/coolfeatures">Some other really cool features</a></li>
 						<li><a href="/settings">Settings</a></li>

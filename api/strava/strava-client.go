@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 
 	"github.com/julienschmidt/httprouter"
@@ -49,4 +50,67 @@ func StravaExchangeToken(code string, grant_type string) TokenResponse {
 		log.Fatal(err)
 	}
 	return tokenResponse
+}
+
+func StravaRefreshToken(refreshToken string) TokenResponse {
+
+	data := url.Values{}
+	data.Set("client_id", clientId)
+	data.Set("client_secret", clientSecret)
+	data.Set("refresh_token", refreshToken)
+	data.Set("grant_type", "refresh_token")
+
+	req, err := http.NewRequest("POST", "https://www.strava.com/oauth/token", strings.NewReader(data.Encode()))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		log.Fatalf("Request failed with status: %d", resp.StatusCode)
+	}
+
+	var tokenResponse TokenResponse
+	if err := json.NewDecoder(resp.Body).Decode(&tokenResponse); err != nil {
+		log.Fatal(err)
+	}
+	return tokenResponse
+}
+
+func StravaGetAthleteActivitesAtDay(accessToken string, day string) []SummaryActivity {
+
+	after := ParseDateToTimestamp(day)
+	before := after + 24*60*60 - 1
+
+	req, err := http.NewRequest("GET", "https://www.strava.com/api/v3/athlete/activities?after="+strconv.FormatInt(after, 10)+"&before="+strconv.FormatInt(before, 10)+"&per_page=200", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	req.Header.Add("Authorization", "Bearer "+accessToken)
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		log.Fatalf("Request failed with status: %d", resp.StatusCode)
+	}
+
+	var activities []SummaryActivity
+	if err := json.NewDecoder(resp.Body).Decode(&activities); err != nil {
+		log.Fatal(err)
+	}
+	return activities
 }
