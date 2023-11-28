@@ -1,10 +1,11 @@
 package controllers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 
-	userservice "github.com/alocin98/ski-planner-api/services"
+	"github.com/alocin98/ski-planner-api/services"
 	"github.com/alocin98/ski-planner-api/strava"
 	"github.com/julienschmidt/httprouter"
 )
@@ -23,13 +24,10 @@ func StravaExchangeToken(response http.ResponseWriter, request *http.Request, _ 
 	issuerId := request.Header.Get("uid")
 	queryValues := request.URL.Query()
 	code := queryValues.Get("code")
-	grant_type := "authorization_code"
 
 	// actions
-	stravaTokenResponse := strava.StravaExchangeToken(code, grant_type)
-	_, err := userservice.ConnectToStrava(issuerId, stravaTokenResponse)
-	activities := strava.StravaGetActivitesAtDay(stravaTokenResponse.AccessToken, "2023-16-07")
-	log.Println(activities)
+	stravaTokenResponse := strava.StravaExchangeToken(code)
+	service.SaveStravaTokenDetails(issuerId, stravaTokenResponse)
 
 	// response
 	redirectUrl, err := request.Cookie("strava-authorization-redirect-url")
@@ -50,31 +48,14 @@ func StravaExchangeToken(response http.ResponseWriter, request *http.Request, _ 
 }
 
 func StravaLoadTrainingData(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
-	// populate values
 	issuerId := request.Header.Get("uid")
-	queryValues := request.URL.Query()
-	refreshToken := queryValues.Get("refresh_token")
-
-	// actions
-	stravaTokenResponse := strava.StravaRefreshToken(refreshToken)
-	_, err := userservice.ConnectToStrava(issuerId, stravaTokenResponse)
-	activities := strava.StravaGetAthleteActivitesAtDay(stravaTokenResponse.AccessToken, "2023-16-07")
-	log.Println(activities)
+	// populate values
+	trainings := service.LoadTrainingData(issuerId)
+	for _, training := range trainings {
+		service.SaveStravaTrainingToDb(training, issuerId)
+	}
 
 	// response
-	redirectUrl, err := request.Cookie("strava-authorization-redirect-url")
-	if err != nil {
-		log.Fatal("!!No strava-authorization-redirect-url set. Please fill a cookie with this value")
-		panic(err)
-	}
-	redirectUrl.Value = ""
-
-	cookie := http.Cookie{
-		Name:     "strava-access-token",
-		Value:    stravaTokenResponse.AccessToken,
-		HttpOnly: true,
-	}
-	http.SetCookie(response, &cookie)
-	http.Redirect(response, request, redirectUrl.Value, http.StatusSeeOther)
+	json.NewEncoder(response).Encode(trainings)
 
 }

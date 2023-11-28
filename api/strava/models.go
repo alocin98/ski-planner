@@ -1,7 +1,5 @@
 package strava
 
-import "time"
-
 type Athlete struct {
 	ID            int     `json:"id" bson:"_id"`
 	Username      string  `json:"username" bson:"username"`
@@ -72,8 +70,8 @@ type SummaryActivity struct {
 	ElevLow              float64     `bson:"elev_low"`
 	Type                 string      `bson:"type"`
 	SportType            string      `bson:"sport_type"`
-	StartDate            time.Time   `bson:"start_date"`
-	StartDateLocal       time.Time   `bson:"start_date_local"`
+	StartDate            string      `json:"start_date" bson:"start_date"`
+	StartDateLocal       string      `bson:"start_date_local"`
 	Timezone             string      `bson:"timezone"`
 	StartLatLng          LatLng      `bson:"start_latlng"`
 	EndLatLng            LatLng      `bson:"end_latlng"`
@@ -101,4 +99,6 @@ type SummaryActivity struct {
 	DeviceWatts          bool        `bson:"device_watts"`
 	MaxWatts             int         `bson:"max_watts"`
 	WeightedAverageWatts int         `bson:"weighted_average_watts"`
+	AverageHeartrate     int         `bson:"average_heartrate`
+	MaxHeartrate         int         `bson:max_heartrate`
 }

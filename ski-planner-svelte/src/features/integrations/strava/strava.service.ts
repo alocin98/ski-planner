@@ -7,6 +7,15 @@ const authorize = (redirect: string) => {
 
 }
 
+const loadTrainingData = () => {
+    return fetch('/api/strava/load-training-data')
+        .then(response => response.json())
+        .then(data => {
+            return data;
+        })
+}
+
 export const StravaService = {
-    authorize
+    authorize,
+    loadTrainingData
 }

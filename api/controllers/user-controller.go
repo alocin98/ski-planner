@@ -6,7 +6,7 @@ import (
 
 	middlewares "github.com/alocin98/ski-planner-api/handlers"
 	"github.com/alocin98/ski-planner-api/models"
-	userservice "github.com/alocin98/ski-planner-api/services"
+	"github.com/alocin98/ski-planner-api/services"
 	"github.com/alocin98/ski-planner-api/validators"
 	"github.com/julienschmidt/httprouter"
 )
@@ -25,7 +25,7 @@ func Login(response http.ResponseWriter, request *http.Request, _ httprouter.Par
 		return
 	}
 
-	user, err = userservice.UpsertUser(user)
+	user, err = service.UpsertUser(user)
 	if err != nil {
 		middlewares.ServerErrResponse(err.Error(), response)
 		return
@@ -36,7 +36,7 @@ func Login(response http.ResponseWriter, request *http.Request, _ httprouter.Par
 
 func GetUser(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
 	userId := request.Header.Get("uid")
-	user, err := userservice.GetUser(userId)
+	user, err := service.GetUser(userId)
 	if err != nil {
 		middlewares.ServerErrResponse(err.Error(), response)
 		return

@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/julienschmidt/httprouter"
 )
@@ -19,7 +20,7 @@ func StravaAuthorize(response http.ResponseWriter, request *http.Request, _ http
 	http.Redirect(response, request, url, http.StatusSeeOther)
 }
 
-func StravaExchangeToken(code string, grant_type string) TokenResponse {
+func StravaExchangeToken(code string) TokenResponse {
 
 	data := url.Values{}
 	data.Set("client_id", clientId)
@@ -85,12 +86,15 @@ func StravaRefreshToken(refreshToken string) TokenResponse {
 	return tokenResponse
 }
 
-func StravaGetAthleteActivitesAtDay(accessToken string, day string) []SummaryActivity {
+func StravaGetAthleteActivitiesLastYear(accessToken string) []SummaryActivity {
+	// Get today's date and the date from one year ago
+	now := time.Now().UTC()
+	oneYearAgo := now.AddDate(-1, 0, 0)
 
-	after := ParseDateToTimestamp(day)
-	before := after + 24*60*60 - 1
+	after := oneYearAgo.Unix()
+	before := now.Unix()
 
-	req, err := http.NewRequest("GET", "https://www.strava.com/api/v3/athlete/activities?after="+strconv.FormatInt(after, 10)+"&before="+strconv.FormatInt(before, 10)+"&per_page=200", nil)
+	req, err := http.NewRequest("GET", "https://www.strava.com/api/v3/athlete/activities?after="+strconv.FormatInt(after, 10)+"&before="+strconv.FormatInt(before, 10)+"&per_page=100", nil)
 	if err != nil {
 		log.Fatal(err)
 	}
