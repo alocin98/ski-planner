@@ -56,49 +56,49 @@ type PolylineMap struct {
 }
 
 type SummaryActivity struct {
-	ID                   int64       `bson:"_id,omitempty"`
-	Long                 int64       `bson:"long"`
-	ExternalID           string      `bson:"external_id"`
-	UploadID             int64       `bson:"upload_id"`
-	Athlete              MetaAthlete `bson:"athlete"`
-	Name                 string      `bson:"name"`
-	Distance             float64     `bson:"distance"`
-	MovingTime           int         `bson:"moving_time"`
-	ElapsedTime          int         `bson:"elapsed_time"`
-	TotalElevationGain   float64     `bson:"total_elevation_gain"`
-	ElevHigh             float64     `bson:"elev_high"`
-	ElevLow              float64     `bson:"elev_low"`
-	Type                 string      `bson:"type"`
-	SportType            string      `bson:"sport_type"`
-	StartDate            string      `json:"start_date" bson:"start_date"`
-	StartDateLocal       string      `bson:"start_date_local"`
-	Timezone             string      `bson:"timezone"`
-	StartLatLng          LatLng      `bson:"start_latlng"`
-	EndLatLng            LatLng      `bson:"end_latlng"`
-	AchievementCount     int         `bson:"achievement_count"`
-	KudosCount           int         `bson:"kudos_count"`
-	CommentCount         int         `bson:"comment_count"`
-	AthleteCount         int         `bson:"athlete_count"`
-	PhotoCount           int         `bson:"photo_count"`
-	TotalPhotoCount      int         `bson:"total_photo_count"`
-	Map                  PolylineMap `bson:"map"`
-	Trainer              bool        `bson:"trainer"`
-	Commute              bool        `bson:"commute"`
-	Manual               bool        `bson:"manual"`
-	Private              bool        `bson:"private"`
-	Flagged              bool        `bson:"flagged"`
-	WorkoutType          int         `bson:"workout_type"`
-	UploadIDStr          string      `bson:"upload_id_str"`
-	AverageSpeed         float64     `bson:"average_speed"`
-	MaxSpeed             float64     `bson:"max_speed"`
-	HasKudoed            bool        `bson:"has_kudoed"`
-	HideFromHome         bool        `bson:"hide_from_home"`
-	GearID               string      `bson:"gear_id"`
-	Kilojoules           float64     `bson:"kilojoules"`
-	AverageWatts         float64     `bson:"average_watts"`
-	DeviceWatts          bool        `bson:"device_watts"`
-	MaxWatts             int         `bson:"max_watts"`
-	WeightedAverageWatts int         `bson:"weighted_average_watts"`
-	AverageHeartrate     int         `bson:"average_heartrate`
-	MaxHeartrate         int         `bson:max_heartrate`
+	ID                   int64       `bson:"id,omitempty" json:"id,omitempty"`
+	Long                 int64       `bson:"long" json:"long"`
+	ExternalID           string      `bson:"external_id" json:"external_id"`
+	UploadID             int64       `bson:"upload_id" json:"upload_id"`
+	Athlete              MetaAthlete `bson:"athlete" json:"athlete"`
+	Name                 string      `bson:"name" json:"name"`
+	Distance             float64     `bson:"distance" json:"distance"`
+	MovingTime           int         `bson:"moving_time" json:"moving_time"`
+	ElapsedTime          int         `bson:"elapsed_time" json:"elapsed_time"`
+	TotalElevationGain   float64     `bson:"total_elevation_gain" json:"total_elevation_gain"`
+	ElevHigh             float64     `bson:"elev_high" json:"elev_high"`
+	ElevLow              float64     `bson:"elev_low" json:"elev_low"`
+	Type                 string      `bson:"type" json:"type"`
+	SportType            string      `bson:"sport_type" json:"sport_type"`
+	StartDate            string      `bson:"start_date" json:"start_date"`
+	StartDateLocal       string      `bson:"start_date_local" json:"start_date_local"`
+	Timezone             string      `bson:"timezone" json:"timezone"`
+	StartLatLng          []float64   `bson:"start_latlng" json:"start_latlng"`
+	EndLatLng            []float64   `bson:"end_latlng" json:"end_latlng"`
+	AchievementCount     int         `bson:"achievement_count" json:"achievement_count"`
+	KudosCount           int         `bson:"kudos_count" json:"kudos_count"`
+	CommentCount         int         `bson:"comment_count" json:"comment_count"`
+	AthleteCount         int         `bson:"athlete_count" json:"athlete_count"`
+	PhotoCount           int         `bson:"photo_count" json:"photo_count"`
+	TotalPhotoCount      int         `bson:"total_photo_count" json:"total_photo_count"`
+	Map                  PolylineMap `bson:"map" json:"map"`
+	Trainer              bool        `bson:"trainer" json:"trainer"`
+	Commute              bool        `bson:"commute" json:"commute"`
+	Manual               bool        `bson:"manual" json:"manual"`
+	Private              bool        `bson:"private" json:"private"`
+	Flagged              bool        `bson:"flagged" json:"flagged"`
+	WorkoutType          int         `bson:"workout_type" json:"workout_type"`
+	UploadIDStr          string      `bson:"upload_id_str" json:"upload_id_str"`
+	AverageSpeed         float64     `bson:"average_speed" json:"average_speed"`
+	MaxSpeed             float64     `bson:"max_speed" json:"max_speed"`
+	HasKudoed            bool        `bson:"has_kudoed" json:"has_kudoed"`
+	HideFromHome         bool        `bson:"hide_from_home" json:"hide_from_home"`
+	GearID               string      `bson:"gear_id" json:"gear_id"`
+	Kilojoules           float64     `bson:"kilojoules" json:"kilojoules"`
+	AverageWatts         float64     `bson:"average_watts" json:"average_watts"`
+	DeviceWatts          bool        `bson:"device_watts" json:"device_watts"`
+	MaxWatts             int         `bson:"max_watts" json:"max_watts"`
+	WeightedAverageWatts int         `bson:"weighted_average_watts" json:"weighted_average_watts"`
+	AverageHeartrate     float32     `bson:"average_heartrate" json:"average_heartrate"`
+	MaxHeartrate         float32     `bson:"max_heartrate" json:"max_heartrate"`
 }

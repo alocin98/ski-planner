@@ -17,6 +17,7 @@
 		"src/routes/(user)/+layout.server.ts"
 	],
 	"/(user)/diary": [
+		"src/routes/(user)/diary/+page.server.ts",
 		"src/routes/(user)/+layout.server.ts"
 	],
 	"/(user)/home": [

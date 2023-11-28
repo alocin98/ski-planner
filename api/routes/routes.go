@@ -19,5 +19,8 @@ func Routes() *httprouter.Router {
 	router.GET("/api/strava/exchange-token", Cors(WithAuth(controllers.StravaExchangeToken)))
 	router.GET("/api/strava/load-training-data", Cors(WithAuth(controllers.StravaLoadTrainingData)))
 
+	// trainings
+	router.GET("/api/trainings", Cors(WithAuth(controllers.GetTrainings)))
+
 	return router
 }

@@ -29,11 +29,10 @@ func SaveTrainingToDb(training models.Training) {
 	}
 
 	// Replace the document in the collection, or insert it if it doesn't exist
-	val, err := collection.ReplaceOne(context.TODO(), filter, trainingBSON, opts)
+	_, err = collection.ReplaceOne(context.TODO(), filter, trainingBSON, opts)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(val)
 }
 
 func SaveStravaTrainingToDb(activity strava.SummaryActivity, issuerId string) {

@@ -27,8 +27,6 @@ func UpsertUser(user models.User) (models.User, error) {
 }
 
 func GetUser(issuerId string) (models.User, error) {
-	fmt.Println(issuerId)
-	fmt.Println("issuerId")
 	var user models.User
 	err := providers.MongoClient.Database("skiyeti-db").Collection("users").FindOne(context.TODO(), bson.D{
 		{Key: "issuerId", Value: issuerId},
