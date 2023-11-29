@@ -1,0 +1,1 @@
+import{g as t}from"./navigation.e0f8f435.js";import{a as r}from"./js.cookie.edb2da2a.js";const o=a=>{r.set("strava-authorization-redirect-url",a,{expiresIn:"1000"}),t("/api/strava/authorize")},i=()=>fetch("/api/strava/load-training-data").then(a=>a.json()).then(a=>a),s={authorize:o,loadTrainingData:i};export{s as S};
