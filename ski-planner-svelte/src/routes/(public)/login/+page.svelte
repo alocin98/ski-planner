@@ -3,7 +3,7 @@
 	import LoginForm from '@features/auth/components/login-form.svelte';
 
 	const afterLogin = () => {
-		goto('/home');
+		goto('/diary');
 	};
 </script>
 

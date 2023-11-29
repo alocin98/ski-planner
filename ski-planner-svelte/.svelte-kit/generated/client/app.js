@@ -27,11 +27,11 @@ export const dictionary = {
 		"/(public)/contact": [6,[2]],
 		"/(user)/coolfeatures": [9,[3]],
 		"/(user)/diary": [~10,[3]],
-		"/(user)/home": [11,[3]],
 		"/(public)/login": [7,[2]],
 		"/(public)/register": [8,[2]],
-		"/(user)/settings": [12,[3]],
-		"/(user)/stats": [13,[3]]
+		"/(user)/settings": [11,[3]],
+		"/(user)/stats": [12,[3]],
+		"/(user)/welcome": [13,[3]]
 	};
 
 export const hooks = {

@@ -20,9 +20,6 @@
 		"src/routes/(user)/diary/+page.server.ts",
 		"src/routes/(user)/+layout.server.ts"
 	],
-	"/(user)/home": [
-		"src/routes/(user)/+layout.server.ts"
-	],
 	"/(public)/login": [
 		"src/routes/(public)/+layout.server.ts"
 	],
@@ -33,6 +30,9 @@
 		"src/routes/(user)/+layout.server.ts"
 	],
 	"/(user)/stats": [
+		"src/routes/(user)/+layout.server.ts"
+	],
+	"/(user)/welcome": [
 		"src/routes/(user)/+layout.server.ts"
 	]
 }

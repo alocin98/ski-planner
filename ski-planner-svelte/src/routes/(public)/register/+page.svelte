@@ -3,7 +3,7 @@
 	import RegisterForm from '@features/auth/components/register-form.svelte';
 
 	const afterRegister = () => {
-		goto('/home');
+		goto('/diary');
 	};
 </script>
 

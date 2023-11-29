@@ -3,6 +3,7 @@
 	import '../../app.postcss';
 	import LoggedInHeader from '@components/LoggedInHeader.svelte';
 	import Footer from '@components/Footer.svelte';
+	import WelcomeModal from '@features/user/components/welcome-modal.svelte';
 
 	export let data;
 </script>
@@ -55,3 +56,6 @@
 		</div>
 	</div>
 </div>
+{#if data.user.isFirstLogin}
+	<WelcomeModal />
+{/if}
