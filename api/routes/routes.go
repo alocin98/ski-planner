@@ -13,6 +13,7 @@ func Routes() *httprouter.Router {
 	router.GET("/api/healthcheck", controllers.HealthCheck)
 	router.POST("/api/login", Cors(WithAuth(controllers.Login)))
 	router.GET("/api/user", Cors(WithAuth(controllers.GetUser)))
+	router.GET("/api/user/finish-tutorial", Cors(WithAuth(controllers.FinishTutorial)))
 
 	// Strava
 	router.GET("/api/strava/authorize", Cors(WithAuth(controllers.StravaAuthorize)))

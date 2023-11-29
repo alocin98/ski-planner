@@ -15,11 +15,18 @@ type Person struct {
 }
 
 type User struct {
-	IssuerId           string              `json:"issuerId,omitempty" bson:"issuerId,omitempty" validate: "required"`
-	Email              string              `json:"email,omitempty" bson:"email,omitempty" validate: "required,email"`
-	StravaConnected    bool                `json:"stravaConnected,omitempty" bson:"stravaConnected,omitempty" validate: ""`
-	StravaAthlete      strava.Athlete      `json:"stravaAthlete,omitempty" bson:"stravaAthlete,omitempty" validate: ""`
-	StravaTokenDetails strava.TokenDetails `json:"stravaTokenDetails,omitempty" bson:"stravaTokenDetails,omitempty" validate: ""`
+	IssuerId     string      `json:"issuerId,omitempty" bson:"issuerId,omitempty" validate: "required"`
+	Email        string      `json:"email,omitempty" bson:"email,omitempty" validate: "required,email"`
+	IsFirstLogin bool        `json:"isFirstLogin" bson:"isFirstLogin" validate: ""`
+	StravaInfo   *StravaInfo `json:"stravaInfo,omitempty" bson:"stravaInfo,omitempty" validate: ""`
+}
+
+type StravaInfo struct {
+	StravaConnected       bool                `json:"stravaConnected,omitempty" bson:"stravaConnected,omitempty" validate: ""`
+	StravaAthlete         strava.Athlete      `json:"stravaAthlete,omitempty" bson:"stravaAthlete,omitempty" validate: ""`
+	StravaTokenDetails    strava.TokenDetails `json:"stravaTokenDetails,omitempty" bson:"stravaTokenDetails,omitempty" validate: ""`
+	HasImportedFromStrava bool                `bson:"hasImportedFromStrava", json: "hasImportedFromStrava"`
+	StravaImportedUntil   time.Time           `bson:"stravaImportedUntil", json: "stravaImportedUntil"`
 }
 
 type Training struct {

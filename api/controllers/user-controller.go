@@ -44,3 +44,14 @@ func GetUser(response http.ResponseWriter, request *http.Request, _ httprouter.P
 
 	json.NewEncoder(response).Encode(user)
 }
+
+func FinishTutorial(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
+	userId := request.Header.Get("uid")
+	err := service.FinishTutorial(userId)
+	if err != nil {
+		middlewares.ServerErrResponse(err.Error(), response)
+		return
+	}
+
+	json.NewEncoder(response).Encode("ok")
+}

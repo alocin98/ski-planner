@@ -6,7 +6,7 @@
 		currentStep++;
 	};
 
-	let stepList: HTMLELement | null;
+	let stepList: HTMLElement | null;
 
 	$: if (steps && stepList && currentStep) {
 		const steps = stepList.querySelectorAll('li');

@@ -13,7 +13,7 @@
 
 <!-- Open the modal using ID.showModal() method -->
 <dialog bind:this={modal} class="modal" {...$$restProps}>
-	<div class="modal-box">
+	<div class="modal-box max-w-4xl">
 		<slot />
 	</div>
 </dialog>

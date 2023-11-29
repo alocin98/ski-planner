@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -35,14 +36,8 @@ func StravaExchangeToken(response http.ResponseWriter, request *http.Request, _ 
 		log.Fatal("!!No strava-authorization-redirect-url set. Please fill a cookie with this value")
 		panic(err)
 	}
-	redirectUrl.Value = ""
+	fmt.Println(redirectUrl.Value)
 
-	cookie := http.Cookie{
-		Name:     "strava-access-token",
-		Value:    stravaTokenResponse.AccessToken,
-		HttpOnly: true,
-	}
-	http.SetCookie(response, &cookie)
 	http.Redirect(response, request, redirectUrl.Value, http.StatusSeeOther)
 
 }
@@ -50,10 +45,11 @@ func StravaExchangeToken(response http.ResponseWriter, request *http.Request, _ 
 func StravaLoadTrainingData(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
 	issuerId := request.Header.Get("uid")
 	// populate values
-	trainings := service.LoadTrainingData(issuerId)
+	trainings, loadedUntil := service.LoadTrainingData(issuerId)
 	for _, training := range trainings {
 		service.SaveStravaTrainingToDb(training, issuerId)
 	}
+	service.SetHasImportedFromStrava(issuerId, loadedUntil)
 
 	// response
 	json.NewEncoder(response).Encode(trainings)

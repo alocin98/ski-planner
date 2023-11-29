@@ -45,17 +45,17 @@ func SaveStravaTokenDetails(issuerId string, tokenResponse strava.TokenResponse)
 		{Key: "issuerId", Value: issuerId},
 	}, bson.D{
 		{Key: "$set", Value: bson.D{
-			{Key: "stravaTokenDetails", Value: tokenDetails},
-			{Key: "stravaConnected", Value: true},
-			{Key: "stravaAthlete", Value: tokenResponse.Athlete},
+			{Key: "stravaInfo.stravaTokenDetails", Value: tokenDetails},
+			{Key: "stravaInfo.stravaConnected", Value: true},
+			{Key: "stravaInfo.stravaAthlete", Value: tokenResponse.Athlete},
 		}},
 	})
 }
 
-func LoadTrainingData(issuerId string) []strava.SummaryActivity {
+func LoadTrainingData(issuerId string) ([]strava.SummaryActivity, time.Time) {
 	accessToken := getStravaAccessToken(issuerId)
-	activities := strava.StravaGetAthleteActivitiesLastYear(accessToken)
-	return activities
+	loadedUntil, activities := strava.StravaGetAthleteActivitiesLastYear(accessToken)
+	return loadedUntil, activities
 
 }
 
@@ -67,14 +67,14 @@ func getStravaAccessToken(issuerId string) string {
 	if err != nil {
 		panic(err)
 	}
-	if user.StravaTokenDetails.ExpiresAt < time.Now().Unix() {
+	if user.StravaInfo.StravaTokenDetails.ExpiresAt < time.Now().Unix() {
 		fmt.Println("Refreshing token")
-		refreshToken := user.StravaTokenDetails.RefreshToken
+		refreshToken := user.StravaInfo.StravaTokenDetails.RefreshToken
 		tokenResponse := strava.StravaRefreshToken(refreshToken)
 		SaveStravaTokenDetails(issuerId, tokenResponse)
 	}
 
-	return user.StravaTokenDetails.AccessToken
+	return user.StravaInfo.StravaTokenDetails.AccessToken
 }
 
 func saveActivitiesToDb(activities []strava.SummaryActivity) {

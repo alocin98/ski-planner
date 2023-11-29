@@ -6,17 +6,15 @@
 
 	let onClickAuthorizeStrava = () => {
 		const redirectUrl = window.location.href;
-		StravaService.authorize(redirectUrl);
+
+		console.log(redirectUrl);
+		//StravaService.authorize(redirectUrl);
 	};
 
-	let isStravaConnected = user.stravaConnected;
+	let isStravaConnected = user.stravaInfo.stravaConnected;
 </script>
 
 <IntegrationCard title="strava">
-	<p class="my-4">
-		This application is powered by <a class="link" href="https://strava.com">Strava</a>
-	</p>
-
 	{#if isStravaConnected}
 		<p>You are already connected.</p>
 		<button class="btn btn-secondary">Click to disconnect</button>

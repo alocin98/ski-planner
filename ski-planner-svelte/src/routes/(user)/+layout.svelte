@@ -56,6 +56,6 @@
 		</div>
 	</div>
 </div>
-{#if data.user.isFirstLogin}
-	<WelcomeModal />
+{#if data.user && data.user.isFirstLogin}
+	<WelcomeModal user={data.user} />
 {/if}

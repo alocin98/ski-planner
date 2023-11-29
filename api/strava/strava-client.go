@@ -86,7 +86,7 @@ func StravaRefreshToken(refreshToken string) TokenResponse {
 	return tokenResponse
 }
 
-func StravaGetAthleteActivitiesLastYear(accessToken string) []SummaryActivity {
+func StravaGetAthleteActivitiesLastYear(accessToken string) ([]SummaryActivity, time.Time) {
 	// Get today's date and the date from one year ago
 	now := time.Now().UTC()
 	oneYearAgo := now.AddDate(-1, 0, 0)
@@ -116,5 +116,5 @@ func StravaGetAthleteActivitiesLastYear(accessToken string) []SummaryActivity {
 	if err := json.NewDecoder(resp.Body).Decode(&activities); err != nil {
 		log.Fatal(err)
 	}
-	return activities
+	return activities, oneYearAgo
 }
