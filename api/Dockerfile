@@ -7,7 +7,7 @@ WORKDIR $GOPATH/src
 # Copy only the go.mod and go.sum files to cache dependencies
 COPY go.mod go.sum ./
 
-ENV GOOGLE_APPLICATION_CREDENTIALS=./.google/credentials.json
+ENV GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
 
 # Install any dependencies required by the project
 RUN go mod download
