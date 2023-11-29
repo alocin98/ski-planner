@@ -1,5 +1,5 @@
 # Use the official Golang image as the base image
-FROM golang:1.17
+FROM golang:1.19
 
 # Set the working directory to the GOPATH
 WORKDIR $GOPATH/src
