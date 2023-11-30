@@ -8,16 +8,20 @@
 	export let data;
 	let drawer: HTMLInputElement;
 
+	// close drawer when clicking outside
+
+	//close drawer when on mobile
 	const closeDrawer = () => {
+		if (window.innerWidth > 1024) return;
 		const drawer = document.querySelector('#my-drawer');
 		drawer.checked = false;
 	};
 </script>
 
-<div class="">
+<div>
 	<div class="drawer lg:drawer-open">
 		<input bind:this={drawer} id="my-drawer" type="checkbox" class="drawer-toggle" />
-		<div class="drawer-content lg:pl-60">
+		<div on:click={closeDrawer} class="drawer-content lg:pl-60">
 			<LoggedInHeader />
 			<SpaceLayout>
 				<slot />

@@ -13,7 +13,7 @@
 		<div class="dropdown">
 			<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 			<!-- svelte-ignore a11y-label-has-associated-control -->
-			<label for="my-drawer" tabindex="0" class="btn btn-ghost md:hidden">
+			<label for="my-drawer" tabindex="0" class="btn btn-ghost lg:hidden">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					class="h-5 w-5"
