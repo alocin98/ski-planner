@@ -27,8 +27,8 @@
 	}
 </script>
 
-<div class="card w-96 bg-base-100 shadow-xl">
-	<form class="card-body">
+<div class="card max-w-96 bg-base-100 shadow-xl">
+	<form class="w-full card-body">
 		<div class="form-control">
 			<label for="email-input" class="label">
 				<span class="label-text">{t('login.email')}</span>
