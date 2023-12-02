@@ -66,9 +66,18 @@ func StravaWebhookVerifier(response http.ResponseWriter, request *http.Request, 
 		fmt.Println("Verify token does not match")
 		return
 	}
+	// Construct JSON response
+	jsonResponse := map[string]string{"hub.challenge": challenge}
+	jsonBytes, err := json.Marshal(jsonResponse)
+	if err != nil {
+		fmt.Println("Error marshaling JSON:", err)
+		http.Error(response, "Internal server error", http.StatusInternalServerError)
+		return
+	}
 
-	// response
-	response.Write([]byte(challenge))
+	// Set Content-Type header and write JSON response
+	response.Header().Set("Content-Type", "application/json")
+	response.Write(jsonBytes)
 
 }
 
