@@ -102,3 +102,13 @@ type SummaryActivity struct {
 	AverageHeartrate     float32     `bson:"average_heartrate" json:"average_heartrate"`
 	MaxHeartrate         float32     `bson:"max_heartrate" json:"max_heartrate"`
 }
+
+type StravaWebhookEvent struct {
+	AspectType     string                 `json:"aspect_type"`
+	EventTime      int64                  `json:"event_time"`
+	ObjectID       int64                  `json:"object_id"`
+	ObjectType     string                 `json:"object_type"`
+	OwnerID        int64                  `json:"owner_id"`
+	SubscriptionID int64                  `json:"subscription_id"`
+	Updates        map[string]interface{} `json:"updates"`
+}

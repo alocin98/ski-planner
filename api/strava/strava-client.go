@@ -1,7 +1,9 @@
 package strava
 
 import (
+	"bytes"
 	"encoding/json"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -117,4 +119,35 @@ func StravaGetAthleteActivitiesLastYear(accessToken string) ([]SummaryActivity, 
 		log.Fatal(err)
 	}
 	return activities, oneYearAgo
+}
+
+func ListWebhooks() string {
+	apiURL := "https://www.strava.com/api/v3/push_subscriptions"
+
+	data := url.Values{}
+	data.Set("client_id", clientId)
+	data.Set("client_secret", clientSecret)
+
+	req, err := http.NewRequest("GET", apiURL, bytes.NewBufferString(data.Encode()))
+	if err != nil {
+		log.Panic("Error creating request:", err)
+	}
+
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+	client := http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Panic("Error sending request:", err)
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Panic("Error reading response body:", err)
+		return ""
+	}
+
+	return string(body)
+
 }

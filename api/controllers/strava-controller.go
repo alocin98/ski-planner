@@ -55,3 +55,42 @@ func StravaLoadTrainingData(response http.ResponseWriter, request *http.Request,
 	json.NewEncoder(response).Encode(trainings)
 
 }
+
+func StravaWebhookVerifier(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
+	fmt.Println("Webhook called")
+	// populate values
+	queryValues := request.URL.Query()
+	challenge := queryValues.Get("hub.challenge")
+	verifyToken := queryValues.Get("hub.verify_token")
+	if verifyToken != "STRAVA" {
+		fmt.Println("Verify token does not match")
+		return
+	}
+
+	// response
+	response.Write([]byte(challenge))
+
+}
+
+func StravaWebhook(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
+	fmt.Println("Webhook called")
+	// populate values
+	var webhookEvent strava.StravaWebhookEvent
+	err := json.NewDecoder(request.Body).Decode(&webhookEvent)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(webhookEvent)
+	// actions
+	//service.SaveStravaTrainingToDb(webhookEvent)
+
+	// response
+	response.Write([]byte("ok"))
+
+}
+
+func StravaWebhookList(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
+	// actions
+	webhookList := strava.ListWebhooks()
+	response.Write([]byte(webhookList))
+}
