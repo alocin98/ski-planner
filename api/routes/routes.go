@@ -22,7 +22,7 @@ func Routes() *httprouter.Router {
 
 	router.GET("/api/strava/webhook", Cors(controllers.StravaWebhookVerifier))
 	router.POST("/api/strava/webhook", Cors(controllers.StravaWebhook))
-	router.GET("/api/strava/webhook/list", Cors(controllers.StravaWebhookList))
+	router.GET("/api/strava/webhook/list", controllers.StravaWebhookList)
 
 	// trainings
 	router.GET("/api/trainings", Cors(WithAuth(controllers.GetTrainings)))

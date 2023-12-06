@@ -3,8 +3,6 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
-
-	"github.com/alocin98/ski-planner-api/models"
 )
 
 // AuthorizationResponse -> response authorize
@@ -18,45 +16,6 @@ func AuthorizationResponse(msg string, writer http.ResponseWriter) {
 	//Send header, status code and output to writer
 	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(http.StatusUnauthorized)
-	json.NewEncoder(writer).Encode(temp)
-}
-
-// SuccessArrRespond -> response formatter
-func SuccessArrRespond(fields []*models.Person, writer http.ResponseWriter) {
-	// var fields["status"] := "success"
-	_, err := json.Marshal(fields)
-	type data struct {
-		People     []*models.Person `json:"data"`
-		Statuscode int              `json:"status"`
-		Message    string           `json:"msg"`
-	}
-	temp := &data{People: fields, Statuscode: 200, Message: "success"}
-	if err != nil {
-		ServerErrResponse(err.Error(), writer)
-	}
-
-	//Send header, status code and output to writer
-	writer.Header().Set("Content-Type", "application/json")
-	writer.WriteHeader(http.StatusOK)
-	json.NewEncoder(writer).Encode(temp)
-}
-
-// SuccessRespond -> response formatter
-func SuccessRespond(fields models.Person, writer http.ResponseWriter) {
-	_, err := json.Marshal(fields)
-	type data struct {
-		Person     models.Person `json:"data"`
-		Statuscode int           `json:"status"`
-		Message    string        `json:"msg"`
-	}
-	temp := &data{Person: fields, Statuscode: 200, Message: "success"}
-	if err != nil {
-		ServerErrResponse(err.Error(), writer)
-	}
-
-	//Send header, status code and output to writer
-	writer.Header().Set("Content-Type", "application/json")
-	writer.WriteHeader(http.StatusOK)
 	json.NewEncoder(writer).Encode(temp)
 }
 

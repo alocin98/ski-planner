@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/alocin98/ski-planner-api/models"
+	. "github.com/alocin98/ski-planner-api/models"
 	"github.com/alocin98/ski-planner-api/providers"
-	"github.com/alocin98/ski-planner-api/strava"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -35,13 +35,13 @@ func SaveTrainingToDb(training models.Training) {
 	}
 }
 
-func SaveStravaTrainingToDb(activity strava.SummaryActivity, issuerId string) {
+func SaveStravaTrainingToDb(activity StravaSummaryActivity, issuerId string) {
 	training := mapStravaTraining(activity)
 	training.AthleteId = issuerId
 	SaveTrainingToDb(training)
 }
 
-func mapStravaTraining(activity strava.SummaryActivity) models.Training {
+func mapStravaTraining(activity StravaSummaryActivity) models.Training {
 	startDate, err := time.Parse("2006-01-02T15:04:05Z", activity.StartDate) // Adjust the layout based on the actual date format received
 	if err != nil {
 		fmt.Println(err)

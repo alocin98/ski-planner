@@ -26,7 +26,7 @@ func main() {
 	providers.InitFirebase()
 
 	// connect mongo
-	providers.Dbconnect()
+	providers.Dbconnect("skiyeti-db")
 
 	// init routes
 	router := routes.Routes()

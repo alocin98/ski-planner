@@ -6,14 +6,15 @@ import (
 	"time"
 
 	"github.com/alocin98/ski-planner-api/models"
+	. "github.com/alocin98/ski-planner-api/models"
 	"github.com/alocin98/ski-planner-api/providers"
 	"github.com/alocin98/ski-planner-api/strava"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func ConnectToStrava(issuerId string, tokenResponse strava.TokenResponse) (models.User, error) {
+func ConnectToStrava(issuerId string, tokenResponse StravaTokenResponse) (models.User, error) {
 	var user models.User
-	tokenDetails := strava.TokenDetails{
+	tokenDetails := StravaTokenDetails{
 		TokenType:    tokenResponse.TokenType,
 		ExpiresAt:    tokenResponse.ExpiresAt,
 		ExpiresIn:    tokenResponse.ExpiresIn,
@@ -33,8 +34,8 @@ func ConnectToStrava(issuerId string, tokenResponse strava.TokenResponse) (model
 
 }
 
-func SaveStravaTokenDetails(issuerId string, tokenResponse strava.TokenResponse) {
-	tokenDetails := strava.TokenDetails{
+func SaveStravaTokenDetails(issuerId string, tokenResponse StravaTokenResponse) {
+	tokenDetails := StravaTokenDetails{
 		TokenType:    tokenResponse.TokenType,
 		ExpiresAt:    tokenResponse.ExpiresAt,
 		ExpiresIn:    tokenResponse.ExpiresIn,
@@ -52,7 +53,7 @@ func SaveStravaTokenDetails(issuerId string, tokenResponse strava.TokenResponse)
 	})
 }
 
-func LoadTrainingData(issuerId string) ([]strava.SummaryActivity, time.Time) {
+func LoadTrainingData(issuerId string) ([]StravaSummaryActivity, time.Time) {
 	accessToken := getStravaAccessToken(issuerId)
 	loadedUntil, activities := strava.StravaGetAthleteActivitiesLastYear(accessToken)
 	return loadedUntil, activities
@@ -77,7 +78,7 @@ func getStravaAccessToken(issuerId string) string {
 	return user.StravaInfo.StravaTokenDetails.AccessToken
 }
 
-func saveActivitiesToDb(activities []strava.SummaryActivity) {
+func saveActivitiesToDb(activities []StravaSummaryActivity) {
 	providers.MongoClient.Database("skiyeti-db").Collection("trainings")
 
 }

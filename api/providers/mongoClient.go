@@ -11,9 +11,10 @@ import (
 )
 
 var MongoClient *mongo.Client
+var MongoDb *mongo.Database
 
 // Dbconnect -> connects mongo
-func Dbconnect() *mongo.Client {
+func Dbconnect(db string) *mongo.Client {
 	clientOptions := options.Client().ApplyURI(middlewares.DotEnvVariable("MONGO_URL"))
 	var err error
 	MongoClient, err = mongo.Connect(context.TODO(), clientOptions)
@@ -28,5 +29,17 @@ func Dbconnect() *mongo.Client {
 		log.Fatal(err)
 	}
 	color.Green("⛁ Connected to Database")
+	MongoDb = MongoClient.Database(db)
+	if err != nil {
+		log.Fatal(err)
+	}
 	return MongoClient
+}
+
+func MongoUpsertOne(collection string, filter interface{}, update interface{}) {
+
+	opts := options.FindOneAndUpdate().SetUpsert(true).SetReturnDocument(options.After)
+
+	c := MongoDb.Collection(collection)
+	update = c.FindOneAndUpdate(context.Background(), filter, update, opts).Decode(update)
 }

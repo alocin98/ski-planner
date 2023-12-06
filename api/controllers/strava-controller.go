@@ -6,7 +6,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/alocin98/ski-planner-api/services"
+	. "github.com/alocin98/ski-planner-api/models"
+	service "github.com/alocin98/ski-planner-api/services"
 	"github.com/alocin98/ski-planner-api/strava"
 	"github.com/julienschmidt/httprouter"
 )
@@ -82,20 +83,19 @@ func StravaWebhookVerifier(response http.ResponseWriter, request *http.Request, 
 }
 
 func StravaWebhook(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
-	fmt.Println("Webhook called")
+	log.Println("Webhook called")
+
 	// populate values
-	var webhookEvent strava.StravaWebhookEvent
+	var webhookEvent StravaWebhookEvent
 	err := json.NewDecoder(request.Body).Decode(&webhookEvent)
 	if err != nil {
-		panic(err)
+		log.Panic("webhook error", err)
 	}
-	fmt.Println(webhookEvent)
-	// actions
-	//service.SaveStravaTrainingToDb(webhookEvent)
 
-	// response
-	response.Write([]byte("ok"))
-
+	activity, user := strava.StravaHandleWebhookEvent(webhookEvent)
+	service.SaveStravaTrainingToDb(activity, user.IssuerId)
+	response.WriteHeader(http.StatusOK)
+	response.Write([]byte("OK"))
 }
 
 func StravaWebhookList(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
