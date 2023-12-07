@@ -2,6 +2,10 @@
 	import { Formaters } from '../utils/formaters';
 	export let trainings: any[] = [];
 
+	$: sorted = trainings.sort((a, b) => {
+		return new Date(b.StartDate).getMilliseconds() - new Date(a.StartDate).getMilliseconds();
+	});
+
 	const { distance, time, stringIsoDate } = Formaters;
 </script>
 
@@ -17,7 +21,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		{#each trainings as training}
+		{#each sorted as training}
 			<tr>
 				<th>{training.Name}</th>
 				<td>{stringIsoDate(training.StartDate)}</td>

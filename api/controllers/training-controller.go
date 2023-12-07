@@ -10,6 +10,7 @@ import (
 	"github.com/alocin98/ski-planner-api/providers"
 	"github.com/julienschmidt/httprouter"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func GetTrainings(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
@@ -20,7 +21,10 @@ func GetTrainings(response http.ResponseWriter, request *http.Request, _ httprou
 
 	filter := bson.D{{"athleteId", issuerId}}
 
-	cursor, err := providers.MongoClient.Database("skiyeti-db").Collection("trainings").Find(context.TODO(), filter)
+	options := options.Find()
+	options.SetSort(bson.D{{"start_date", -1}}) // 1 for ascending, -1 for descending
+
+	cursor, err := providers.MongoClient.Database("skiyeti-db").Collection("trainings").Find(context.TODO(), filter, options)
 	if err != nil {
 		panic(err)
 	}
