@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 
 import { initializeApp, type FirebaseApp } from 'firebase/app';
+import { getAnalytics } from 'firebase/analytics';
 import { getAuth, browserLocalPersistence, signInAnonymously, type Auth } from 'firebase/auth';
 import {
     PUBLIC_FIREBASE_API_KEY,
@@ -32,6 +33,7 @@ export let auth: Auth;
 export async function initFirebase() {
     app = initializeApp(firebaseConfig);
     auth = getAuth(app);
+    getAnalytics(app);
     await auth.setPersistence(browserLocalPersistence);
     if (auth.currentUser) {
         const token = await auth.currentUser.getIdTokenResult();
