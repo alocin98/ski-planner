@@ -24,7 +24,8 @@ var clientSecret = "e3cfc4a374bedf06e5e10fe7302c935a3ec28e65"
 var clientId = "39719"
 
 func StravaAuthorize(response http.ResponseWriter, request *http.Request, _ httprouter.Params) {
-	url := "https://www.strava.com/oauth/authorize?client_id=39719&response_type=code&redirect_uri=http://localhost:8080/api/strava/exchange-token&approval_prompt=force&scope=activity:read_all"
+	Host := request.URL.Host
+	url := "https://www.strava.com/oauth/authorize?client_id=39719&response_type=code&redirect_uri=http://" + Host + "/api/strava/exchange-token&approval_prompt=force&scope=activity:read_all"
 	http.Redirect(response, request, url, http.StatusSeeOther)
 }
 
